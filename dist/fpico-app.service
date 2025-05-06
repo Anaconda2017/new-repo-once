@@ -1,0 +1,15 @@
+[Unit]
+Description=FPICO Angular SSR Application
+After=network.target docker.service
+Requires=docker.service
+
+[Service]
+Type=simple
+User=root
+WorkingDirectory=/path/to/your/application
+ExecStart=/bin/bash /path/to/your/application/start.sh
+Restart=on-failure
+RestartSec=10
+
+[Install]
+WantedBy=multi-user.target
