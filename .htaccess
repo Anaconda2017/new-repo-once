@@ -1,0 +1,56 @@
+# Enable rewriting
+
+RewriteEngine On
+
+# Handle HTTP to HTTPS redirect
+
+# RewriteCond %{HTTPS} off
+
+# RewriteRule ^(.\*)$ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
+
+# Don't rewrite files or directories
+
+RewriteCond %{REQUEST_FILENAME} -f [OR]
+RewriteCond %{REQUEST_FILENAME} -d
+RewriteRule ^ - [L]
+
+# Rewrite everything else to index.html to allow angular routing
+
+RewriteRule ^ /index.html [L]
+
+# Enable CORS
+
+<IfModule mod_headers.c>
+    Header set Access-Control-Allow-Origin "*"
+    Header set Access-Control-Allow-Methods "GET, POST, OPTIONS, PUT, DELETE"
+    Header set Access-Control-Allow-Headers "Origin, X-Requested-With, Content-Type, Accept, Authorization"
+</IfModule>
+
+# Enable compression
+
+<IfModule mod_deflate.c>
+    AddOutputFilterByType DEFLATE text/html text/plain text/xml text/css text/javascript application/javascript application/json
+</IfModule>
+
+# Set caching for static assets
+
+<FilesMatch "\.(ico|pdf|jpg|jpeg|png|webp|gif|svg|js|css|woff|woff2|ttf|eot)$">
+Header set Cache-Control "max-age=31536000, public"
+</FilesMatch>
+
+# Security headers
+
+<IfModule mod_headers.c>
+    # Protect against XSS attacks
+    Header set X-XSS-Protection "1; mode=block"
+    # Prevent MIME-sniffing
+    Header set X-Content-Type-Options "nosniff"
+    # Referrer policy
+    Header set Referrer-Policy "strict-origin-when-cross-origin"
+    # Content Security Policy (you may need to customize this)
+    # Header set Content-Security-Policy "default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://cdnjs.cloudflare.com https://cdn.jsdelivr.net; style-src 'self' 'unsafe-inline' https://cdnjs.cloudflare.com https://cdn.jsdelivr.net https://fonts.googleapis.com; font-src 'self' https://fonts.googleapis.com https://fonts.gstatic.com; img-src 'self' data:; connect-src 'self'"
+</IfModule>
+
+# Handle errors
+
+ErrorDocument 404 /index.html

@@ -1,0 +1,23 @@
+{
+  "name": "ssrfpico",
+  "version": "1.0.0",
+  "description": "Angular 19 SSR Application",
+  "main": "server/server.mjs",
+  "scripts": {
+    "start": "node server/server.mjs",
+    "dev": "nodemon server/server.mjs",
+    "docker:build": "docker build -t ssrfpico .",
+    "docker:run": "docker run -p 3000:3000 ssrfpico"
+  },
+  "dependencies": {
+    "express": "^4.17.17",
+    "cors": "^2.8.5",
+    "compression": "^1.7.4"
+  },
+  "devDependencies": {
+    "nodemon": "^3.0.1"
+  },
+  "engines": {
+    "node": ">=20.0.0"
+  }
+}
