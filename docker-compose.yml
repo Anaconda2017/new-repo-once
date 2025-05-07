@@ -1,0 +1,16 @@
+services:
+  angular-ssr:
+    build:
+      context: .
+      dockerfile: Dockerfile  # Make sure Dockerfile starts Angular SSR server
+    container_name: angular-ssr
+    networks:
+      - coolify
+    expose:
+      - "4000"
+    labels:
+      - traefik.enable=true
+      - traefik.http.routers.angular.rule=Host(`mshmohm.com`)
+      - traefik.http.routers.angular.entrypoints=http,https
+      - traefik.http.routers.angular.tls.certresolver=letsencrypt
+      - traefik.http.services.angular.loadbalancer.server.port=4000
